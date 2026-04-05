@@ -1,1 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alina | Portfolio WAW</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000;
+  --text:#fff;
+  --accent:#ff69b4;
+  --accent-hover:#ff00ff;
+  --card:#1a1a1a;
+}
 
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  scroll-behavior:smooth;
+  perspective:1200px;
+}
+
+/* Canvas Background */
+#bg-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;
+}
+
+/* Header */
+header{
+  display:flex;justify-content:space-between;
+  padding:20px 50px;
+  position:sticky;top:0;
+  background: rgba(0,0,0,0.85); z-index:10;
+}
+header h2{
+  color:var(--accent);
+  text-shadow:0 0 10px var(--accent);
+  transition: 0.3s;
+}
+header h2:hover{
+  transform: scale(1.1);
+  text-shadow:0 0 20px var(--accent-hover);
+}
+nav a{
+  margin-left:15px;color:var(--accent);
+  text-decoration:none;font-weight:600;
+  position:relative;transition:0.3s;
+}
+nav a::after{
+  content:""; position:absolute; left:0; bottom:-4px; width:0; height:2px;
+  background: var(--accent); transition:0.3s;
+}
+nav a:hover::after{width:100%; background: var(--accent-hover);}
+nav a:hover{
+  color: var(--accent-hover); 
+  transform: scale(1.1) translateY(-2px);
+  text-shadow:0 0 10px var(--accent-hover);
+}
+
+/* Hero */
+.hero{
+  height:100vh; display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  text-align:center; gap:20px; overflow:hidden;
+}
+.hero h1{
+  font-size:3rem; line-height:1.2; display:flex; flex-wrap:wrap; justify-content:center;
+}
+.hero p{
+  font-size:1.2rem; display:flex; flex-wrap:wrap; justify-content:center;
+}
+
+/* Buttons with micro-animation */
+.btn{
+  display:inline-block; padding:14px 28px;
+  background:var(--accent); color:var(--bg);
+  border-radius:8px; font-weight:600;
+  text-decoration:none;
+  position:relative;
+  overflow:hidden;
+  transition: transform 0.25s, box-shadow 0.3s, background 0.3s;
+}
+.btn::after{
+  content:""; position:absolute; left:50%; top:50%; width:0; height:0;
+  background:rgba(255,255,255,0.2);
+  transform:translate(-50%,-50%) rotate(45deg);
+  transition: width 0.3s, height 0.3s;
+}
+.btn:hover::after{
+  width:200%; height:500%;
+}
+.btn:hover{
+  transform: scale(1.15) translateY(-3px);
+  background: var(--accent-hover);
+  box-shadow:0 0 20px var(--accent-hover),0 0 40px var(--accent);
+}
+
+/* Marquee */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background: #111;
+  border-top: 1px solid var(--accent);
+  border-bottom: 1px solid var(--accent);
+  padding: 10px 0;
+  margin-bottom: 50px;
+  position: relative;
+}
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 15s linear infinite;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+.marquee-content span {
+  margin-right: 50px;
+}
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Sections */
+section{padding:80px 50px; max-width:1200px; margin:auto; perspective:1200px;}
+section h2{
+  font-size:2rem; margin-bottom:20px;
+  display:inline-block;
+  cursor:default;
+  transition: transform 0.3s, color 0.3s, text-shadow 0.3s;
+}
+section h2:hover{
+  transform:translateY(-5px) scale(1.2); 
+  color:var(--accent-hover);
+  text-shadow:0 0 15px var(--accent-hover), 0 0 30px var(--accent);
+}
+
+/* Fade-in effect */
+.fade{opacity:0; transform:translateY(30px) scale(0.95); transition: all 0.8s ease;}
+.fade.visible{opacity:1; transform:translateY(0) scale(1);}
+
+/* Projects */
+.projects{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; perspective:1000px;}
+.card{
+  background:var(--card); border-radius:10px;
+  overflow:hidden; position:relative; cursor:pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  transform-style: preserve-3d;
+}
+.card:hover{
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) scale(1.05);
+  box-shadow:0 0 30px var(--accent-hover),0 0 60px var(--accent);
+}
+.card img{
+  width:100%; height:150px; object-fit:cover;
+  transition: transform 0.5s;
+}
+.card:hover img{transform:scale(1.1);}
+.card-overlay{
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.6);
+  display:flex; justify-content:center; align-items:center;
+  text-align:center; color:var(--accent);
+  opacity:0; transition: opacity 0.5s, text-shadow 0.5s;
+}
+.card:hover .card-overlay{
+  opacity:1; 
+  text-shadow:0 0 20px var(--accent-hover);
+}
+
+/* Contact */
+.contact-box{
+  max-width:200px; padding:20px;
+  background:var(--card); border:2px solid var(--accent);
+  border-radius:12px; text-align:center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.contact-box a {
+  color: #ffffff; /* text alb */
+  text-decoration: none;
+}
+.contact-box:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px var(--accent-hover),0 0 40px var(--accent);
+}
+
+/* Footer */
+footer{text-align:center; padding:30px; color:var(--text); text-shadow:0 0 5px var(--accent);}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<header>
+  <nav>
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero" id="hero">
+  <h1 id="hero-title"></h1>
+  <p id="hero-subtitle"></p>
+  <a href="cv.pdf" download class="btn">Download CV</a>
+  <div style="margin-top:15px;">
+    <a href="https://github.com/" target="_blank">GitHub</a> | 
+    <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-container">
+  <div class="marquee-content">
+    <span>Creative Web Developer</span>
+    <span>UI/UX Enthusiast</span>
+    <span>JavaScript Lover</span>
+    <span>Frontend Magician</span>
+    <span>Creative Web Developer</span>
+  </div>
+</div>
+
+<section class="about fade" id="about">
+  <h2>About Me</h2>
+  <p>I'm a web developer passionate about creating beautiful and functional websites. I love working with modern technologies and building projects that make an impact.</p>
+</section>
+
+<section id="projects" class="fade">
+  <h2>Projects</h2>
+  <div class="projects">
+    <div class="card fade">
+      <img src="images/p1.jpg" alt="Project 1">
+      <div class="card-overlay">
+        <h3>Project 1</h3>
+        <p>Web app with responsive design and modern UI</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="fade">
+  <h2>Contact</h2>
+  <div class="contact-box fade">
+    <a href="mailto:alinaa@email.com"><h3>Contact Me</h3></a>
+  </div>
+</section>
+
+<footer>© 2026 Alina</footer>
+
+<script>
+// Typing effect cu micro-bounce
+function typeTextWithBounce(id, text, delay = 100) {
+  const el = document.getElementById(id);
+  let i = 0;
+  function typing() {
+    if (i < text.length) {
+      const char = text[i] === " " ? "&nbsp;" : text[i];
+      const span = document.createElement("span");
+      span.innerHTML = char;
+      span.style.display = "inline-block";
+      span.style.opacity = 0;
+      span.style.transform = "translateY(20px)";
+      span.style.transition = "transform 0.4s ease, opacity 0.4s ease";
+      el.appendChild(span);
+      requestAnimationFrame(() => {
+        span.style.opacity = 1;
+        span.style.transform = "translateY(0px)";
+      });
+      i++;
+      setTimeout(typing, delay);
+    }
+  }
+  typing();
+}
+typeTextWithBounce("hero-title", "Hi! I'm Alina", 120);
+setTimeout(()=>{
+  typeTextWithBounce("hero-subtitle", "Passionate about IT & Web Development", 80);
+},2000);
+
+// Intersection Observer for fade-in
+const faders=document.querySelectorAll('.fade');
+const appearOptions={threshold:0.2};
+const appearOnScroll=new IntersectionObserver((entries,observer)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+},appearOptions);
+faders.forEach(fader=>appearOnScroll.observe(fader));
+
+// Particles Background
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth; canvas.height=window.innerHeight;});
+
+const particles=[];
+for(let i=0;i<100;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*3+1,
+    dx:(Math.random()-0.5)*0.5,
+    dy:(Math.random()-0.5)*0.5,
+    alpha:Math.random()*0.5+0.1
+  });
+}
+const cursor={x:-1000,y:-1000};
+document.addEventListener('mousemove',e=>{cursor.x=e.clientX; cursor.y=e.clientY;});
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(let p of particles){
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,105,180,${p.alpha})`;
+    ctx.fill();
+    let dx=cursor.x-p.x, dy=cursor.y-p.y, dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<120){p.x-=dx*0.002;p.y-=dy*0.002;}
+  }
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      let p1=particles[i],p2=particles[j];
+      let dx=p1.x-p2.x, dy=p1.y-p2.y, dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<120){
+        ctx.beginPath();
+        ctx.moveTo(p1.x,p1.y);
+        ctx.lineTo(p2.x,p2.y);
+        ctx.strokeStyle=`rgba(255,105,180,${0.1*(1-dist/120)})`;
+        ctx.lineWidth=0.8;
+        ctx.stroke();
+      }
+    }
+  }
+  for(let p of particles){
+    p.x+=p.dx; p.y+=p.dy;
+    if(p.x<0||p.x>canvas.width)p.dx*=-1;
+    if(p.y<0||p.y>canvas.height)p.dy*=-1;
+  }
+  requestAnimationFrame(animate);
+}
+
+// Card 3D hover effect
+document.querySelectorAll('.card').forEach(card=>{
+  card.addEventListener('mousemove', e=>{
+    const rect=card.getBoundingClientRect();
+    const x=e.clientX - rect.left;
+    const y=e.clientY - rect.top;
+    const cx=rect.width/2;
+    const cy=rect.height/2;
+    const rx=(y-cy)/10;
+    const ry=(cx-x)/10;
+    card.style.setProperty('--rx', rx+'deg');
+    card.style.setProperty('--ry', ry+'deg');
+  });
+  card.addEventListener('mouseleave', ()=>{
+    card.style.setProperty('--rx','0deg');
+    card.style.setProperty('--ry','0deg');
+  });
+});
+
+// Scroll parallax for hero and sections
+window.addEventListener('scroll', ()=>{
+  const scrollY=window.scrollY;
+  const hero=document.querySelector('.hero');
+  hero.style.transform=`translateY(${scrollY*0.2}px)`;
+  document.querySelectorAll('section').forEach(sec=>{
+    sec.style.transform=`translateZ(${scrollY*0.05}px)`;
+  });
+});
+</script>
+
+</body>
+</html>
